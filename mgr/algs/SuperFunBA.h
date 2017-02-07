@@ -13,8 +13,7 @@
 class SuperFunBA: public SuperFun
 {
 public:
-	SuperFunBA();
-	virtual ~SuperFunBA();
+	SuperFunBA(int N);
 protected:
 	virtual void doDecisionProduct(Candidate* X,
 			Candidate* Y,

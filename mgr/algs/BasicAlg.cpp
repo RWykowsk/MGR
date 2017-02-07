@@ -11,7 +11,6 @@ BasicAlg::BasicAlg(int N)
 {
 	this->rNo = N;
 	this->dataRowsNumber = N;
-
 }
 
 BasicAlg::~BasicAlg()
@@ -19,44 +18,54 @@ BasicAlg::~BasicAlg()
 	// TODO Auto-generated destructor stub
 }
 
-virtual void BasicAlg::partitionArrayRepresentation(vector<vector<int> *> &A)
+void BasicAlg::partitionArrayRepresentation(vector<vector<int> *> *A)
 {
-	for (unsigned int i = 0; i < A.size(); i++)
+	for (unsigned int i = 0; i < A->size(); i++)
 	{
-		for (unsigned int j = 0; j < A.at(i)->size(); j++)
+		for (unsigned int j = 0; j < A->at(i)->size(); j++)
 		{
-			T.at(A.at(i)->at(j)) = i;
+			T.at(A->at(i)->at(j)) = i;
 		}
 	}
 }
 
-virtual void BasicAlg::doBeforeProduct(Candidate *Ck)
+void BasicAlg::deltaPartitionArrayRepresentation(vector<vector<int> *> *A)
 {
-	groups.clear();
+	for (unsigned int i = 0; i < A->size(); i++)
+	{
+		for (unsigned int j = 0; j < A->at(i)->size(); j++)
+		{
+			delta.at(A->at(i)->at(j)) = i;
+		}
+	}
 }
 
-virtual void BasicAlg::product(vector<vector<int> *> &A,
-		vector<vector<int> *> &B)
+void BasicAlg::doBeforeProduct(Candidate *Ck)
+{
+	groups = new vector<vector<int>*>();
+}
+
+void BasicAlg::product(vector<vector<int> *> *A, vector<vector<int> *> *B)
 {
 	vector<vector<int> > S;
 	S.resize(dataRowsNumber);
 	GroupsNo = 0;
 	partitionArrayRepresentation(A);
 	set<int> AGroupIds; //set, bo groupsID moze sie powtarzac, a my nie chcemy
-	for (unsigned int i = 0; i < B.size(); i++)
+	for (unsigned int i = 0; i < B->size(); i++)
 	{ //petla obslugujaca kazda grupe B
 		AGroupIds.clear();
 		int j;
-		for (unsigned int k = 0; k < B.at(i)->size(); k++)
+		for (unsigned int k = 0; k < B->at(i)->size(); k++)
 		{ //petla obslugujaca kazdy element z grupy z B
-			j = T.at(B.at(i)->at(k)); // B.at(i).at(k) - oid
-			S.at(j).push_back(B.at(i)->at(k)); //S[j]
+			j = T.at(B->at(i)->at(k)); // B.at(i).at(k) - oid
+			S.at(j).push_back(B->at(i)->at(k)); //S[j]
 			AGroupIds.insert(j);
 		}
 		set<int>::iterator it;
 		for (it = AGroupIds.begin(); it != AGroupIds.end(); ++it)
 		{
-			groups.push_back(new vector<int>(S.at(*it)));
+			groups->push_back(new vector<int>(S.at(*it)));
 //            C.push_back(new vector <int>());
 //            for (unsigned int x = 0; x < S.at(*it).size(); x++) {//insertowanie S[j] do C
 //                C.back()->push_back(S.at(*it).at(x));
@@ -68,15 +77,15 @@ virtual void BasicAlg::product(vector<vector<int> *> &A,
 	}
 }
 
-virtual bool BasicAlg::holds(vector<vector<int> *> &C)
+bool BasicAlg::holds(vector<vector<int> *> *C)
 {
-	for (unsigned int i = 0; i < C.size(); i++)
+	for (unsigned int i = 0; i < C->size(); i++)
 	{ //petla obslugujaca kazda grupe z C
-		int oid = C.at(i)->at(0);
+		int oid = C->at(i)->at(0);
 		int firstGroup = delta.at(oid);
-		for (unsigned int k = 1; k < C.at(i)->size(); k++)
+		for (unsigned int k = 1; k < C->at(i)->size(); k++)
 		{ //petla obslugujaca kazdy element z grupy z C
-			oid = C.at(i)->at(k);
+			oid = C->at(i)->at(k);
 			int nextGroup = delta.at(oid);
 			if (firstGroup != nextGroup)
 				return false;
@@ -86,7 +95,7 @@ virtual bool BasicAlg::holds(vector<vector<int> *> &C)
 }
 
 void BasicAlg::addCandidate(extBitset Cand_id,
-		const vector<vector<int> *>& groups,
+		vector<vector<int> *>* groups,
 		vector<Candidate*>& output)
 {
 	//cout<<"bla2"<<endl;
@@ -101,7 +110,7 @@ void BasicAlg::addCandidate(extBitset Cand_id,
 }
 
 bool BasicAlg::validateCandidate(extBitset Cand_id,
-		const vector<vector<int> *>& groups,
+		vector<vector<int> *>* groups,
 		vector<Candidate*>& Ck,
 		vector<Candidate*>& output)
 {
@@ -143,7 +152,7 @@ bool BasicAlg::validateCandidate(extBitset Cand_id,
 	return cand_validate;
 }
 
-virtual void BasicAlg::mergeCandidates(unsigned int i,
+void BasicAlg::mergeCandidates(unsigned int i,
 		unsigned int j,
 		vector<Candidate*>& Ck,
 		vector<Candidate*>& output)
@@ -158,7 +167,7 @@ virtual void BasicAlg::mergeCandidates(unsigned int i,
 	bool cand_validate = validateCandidate(Cand_id, groups, Ck, output);
 }
 
-virtual void BasicAlg::funGen(vector<Candidate *> &Ck,
+void BasicAlg::funGen(vector<Candidate *> &Ck,
 		int k,
 		vector<Candidate *> &output)
 {
@@ -182,18 +191,18 @@ virtual void BasicAlg::funGen(vector<Candidate *> &Ck,
 void BasicAlg::prepareCandidate(vector<Candidate*>& C1)
 {
 	for (unsigned int z = 0; z < C1.size(); z++)
-		C1.at(z)->GroupsNo = C1.at(z)->groups.size();
+		C1.at(z)->GroupsNo = C1.at(z)->groups->size();
 }
 
 void BasicAlg::removeDecisionColumn(int d_column, vector<Candidate*>& C1)
 {
-	for (unsigned int z = 0; z < C1.at(d_column - 1)->groups.size(); z++)
+	for (unsigned int z = 0; z < C1.at(d_column - 1)->groups->size(); z++)
 	{
 		//atrybut ostatni(decyzja) wszystkie grupy -usuwanie
 		//        for (unsigned int a = 0; a < C1.at(d_column - 1)->groups.at(z)->size(); a++) {//wszystkie elementy z grupy
 		//            delete C1.at(d_column - 1)->groups.at(z)->at(a);
 		//        }
-		delete C1.at(d_column - 1)->groups.at(z);
+		delete C1.at(d_column - 1)->groups->at(z);
 	}
 	delete C1.at(d_column - 1);
 	C1.erase(C1.begin() + d_column - 1);
@@ -209,7 +218,7 @@ void BasicAlg::initializeStatistics()
 	sum_records_before = 0;
 }
 
-void BasicAlg::printHeaders(const ofstream& output)
+void BasicAlg::printHeaders(ofstream& output)
 {
 	output << "Liczba kandydatow o dlugosci : " << '\t';
 	output << "Liczba wszystkich wytworzonych podzialow " << '\t';
@@ -245,7 +254,7 @@ void BasicAlg::search4FunctionalDependencies(vector<Candidate*>* tmp,
 		}
 }
 
-void BasicAlg::printStatistics(const ofstream& output)
+void BasicAlg::printStatistics(ofstream& output)
 {
 	//        output << "Liczba wszystkich wytworzonych podzialow "<<No_divisions<<endl;
 	//        output << "Liczba wytworzonych podzialow po czyszczeniu kandydatów(pruning) "<<No_divisions2<<endl;
@@ -271,7 +280,7 @@ void BasicAlg::printStatistics(const ofstream& output)
 	output << avg_records << '\n';
 }
 
-virtual void BasicAlg::candidatesInitialProcessing(const ofstream& output,
+void BasicAlg::candidatesInitialProcessing(ofstream& output,
 		vector<Candidate*>* tmp,
 		vector<Candidate*>& Rk)
 {
@@ -284,8 +293,8 @@ virtual void BasicAlg::candidatesInitialProcessing(const ofstream& output,
 	*tmp = tmp2;
 }
 
-virtual void BasicAlg::candidatesFurtherProcessing(vector<Candidate*> tmp,
-		const ofstream& output,
+void BasicAlg::candidatesFurtherProcessing(vector<Candidate*> tmp,
+		ofstream& output,
 		vector<Candidate*>& Rk)
 {
 	for (int k = 2; tmp.size() > 0; k++)
@@ -305,11 +314,12 @@ virtual void BasicAlg::candidatesFurtherProcessing(vector<Candidate*> tmp,
 		//        double avg_records=double(sum_records)/No_divisions2;
 		//        output << "Srednia liczba rekordow po czyszczeniu kandydatów(pruning) "<<avg_records<<endl;
 		printStatistics(output);
-		tmp = tmp2;
+		//tmp = std::move(tmp2);
+		tmp = move(tmp2);
 	}
 }
 
-virtual void BasicAlg::processData(vector<Candidate *> &C1,
+void BasicAlg::processData(vector<Candidate *> &C1,
 		int id_row,
 		vector<Candidate *> &Rk,
 		int d_column,
@@ -320,7 +330,7 @@ virtual void BasicAlg::processData(vector<Candidate *> &C1,
 	T.resize(id_row);
 	delta.resize(id_row);
 	prepareCandidate(C1);
-	partitionArrayRepresentation(C1.at(d_column - 1)->groups);
+	deltaPartitionArrayRepresentation(C1.at(d_column - 1)->groups);
 	removeDecisionColumn(d_column, C1);
 	vector<Candidate *> tmp;
 	tmp = C1;

@@ -173,6 +173,7 @@ int read_from_modified_file(string filename, vector<Candidate *> &C1, int number
         for (int z = 0; z < column_number_total; z++) {
             C1.push_back(new Candidate);
             extBitsetINSERT(C1.at(z)->Cand_id ,z+1);
+			C1.at(z)->groups = new vector<vector<int>*>();
             //C1.at(z)->Cand_id.push_back(z);
         }
         int column_number = 0;
@@ -180,10 +181,10 @@ int read_from_modified_file(string filename, vector<Candidate *> &C1, int number
             string s;
             if (!getline(tmp, s, ',')) break;
             dict.at(column_number).push_back(dictionary(s, 0));
-            C1.at(column_number)->groups.push_back(new vector<int>());
+			C1.at(column_number)->groups->push_back(new vector<int>());
             //int *id =new int(id_row);
             //id=id_row;
-            C1.at(column_number)->groups.at(0)->push_back(id_row);
+			C1.at(column_number)->groups->at(0)->push_back(id_row);
             outfile << "0 ";
             //int *a=C1.at(column_number)->groups.at(0)->at(0);
             //cout<<*a<<"\t"<<a<<endl;
@@ -208,7 +209,8 @@ int read_from_modified_file(string filename, vector<Candidate *> &C1, int number
                 if (s == dict.at(column_number).at(
                         z).word) {//jezeli jest juz w slowniku, to dodaj do grupy o id ze slownika element(id_wiersza)
                     is_in_dict = true;
-                    C1.at(column_number)->groups.at(dict.at(column_number).at(z).id)->push_back(id_row);
+					C1.at(column_number)->groups->at(
+							dict.at(column_number).at(z).id)->push_back(id_row);
                     outfile << dict.at(column_number).at(z).id << " ";
                     break;
                 }
@@ -217,8 +219,10 @@ int read_from_modified_file(string filename, vector<Candidate *> &C1, int number
             if (!is_in_dict) {//dodaj do slownika, dodaj nowa grupe i jej element(id wiersza)
                 int dict_id = dict.at(column_number).size();
                 dict.at(column_number).push_back(dictionary(s, dict_id));
-                C1.at(column_number)->groups.push_back(new vector<int>());
-                C1.at(column_number)->groups.at(dict.at(column_number).at(dict_id).id)->push_back(id_row);
+				C1.at(column_number)->groups->push_back(new vector<int>());
+				C1.at(column_number)->groups->at(
+						dict.at(column_number).at(dict_id).id)->push_back(
+						id_row);
                 outfile << dict.at(column_number).at(dict_id).id << " ";
             }
 
@@ -238,7 +242,7 @@ int read_from_modified_file(string filename, vector<Candidate *> &C1, int number
 
 void save_to_outputfile(vector<Candidate *> Rk, int a_type, int number_of_transactions, string input_file,
                         double diffFilePrepare, double diffAlg, double diffAll) {
-    string filename = "results";
+	string filename = "results/results";
     string a_name;
     ostringstream temp_records;
     temp_records << number_of_transactions;
@@ -295,7 +299,7 @@ void save_to_outputfile(vector<Candidate *> Rk, int a_type, int number_of_transa
 
 string create_file_name(int a_type, int number_of_transactions, string input_file)
 {
-    string filename = "results";
+	string filename = "results/results";
     string a_name;
     ostringstream temp_records;
     temp_records << number_of_transactions;

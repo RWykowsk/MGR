@@ -7,26 +7,26 @@
 
 #include "SuperFun.h"
 
-SuperFun::SuperFun()
+SuperFun::SuperFun(int N) :
+		Stripped(N)
 {
-	// TODO Auto-generated constructor stub
 
 }
+//{
+//	this->rNo = N;
+//	this->dataRowsNumber = N;
+//
+//}
 
-SuperFun::~SuperFun()
+bool SuperFun::superHolds(vector<vector<int> *> *C)
 {
-	// TODO Auto-generated destructor stub
-}
-
-bool SuperFun::superHolds(vector<vector<int> *> &C)
-{
-	if (C.size() == 0)
+	if (C->size() == 0)
 		return true;
 	return false;
 }
 
-virtual void SuperFun::candidatesFurtherProcessing(vector<Candidate*> tmp,
-		const ofstream& output,
+void SuperFun::candidatesFurtherProcessing(vector<Candidate*> tmp,
+		ofstream& output,
 		vector<Candidate*>& Rk)
 {
 	for (int k = 2; tmp.size() > 0; k++)
@@ -51,18 +51,18 @@ virtual void SuperFun::candidatesFurtherProcessing(vector<Candidate*> tmp,
 		//        double avg_records=double(sum_records)/No_divisions2;
 		//        output << "Srednia liczba rekordow po czyszczeniu kandydatów(pruning) "<<avg_records<<endl;
 		printStatistics(output);
-		tmp = tmp2;
+		tmp = move(tmp2);
 	}
 }
 
-virtual void SuperFun::doDecisionProduct(Candidate* X,
+void SuperFun::doDecisionProduct(Candidate* X,
 		Candidate* Y,
 		Candidate** Cand)
 {
 	DecisionProduct(X->groups, Y->groups, *Cand);
 }
 
-virtual void SuperFun::funGen(vector<Candidate *> &Ck,
+void SuperFun::funGen(vector<Candidate *> &Ck,
 		int k,
 		vector<Candidate *> &output)
 {
@@ -115,6 +115,7 @@ virtual void SuperFun::funGen(vector<Candidate *> &Ck,
 				if (cand_validate)
 				{
 					Candidate *Cand = new Candidate;
+					Cand->groups = new vector<vector<int>*>();
 					doDecisionProduct(X, Y, &Cand);
 					No_divisions++;
 					sum_groups_before = sum_groups_before + Cand->GroupsNo;
@@ -165,8 +166,8 @@ void SuperFun::InitializeParenthood(Candidate *A,
 int SuperFun::CountRecords(Candidate *C)
 {
 	int records = 0;
-	for (unsigned int z = 0; z < C->groups.size(); z++) //wszystkie grupy
-		for (unsigned int a = 0; a < C->groups.at(z)->size(); a++) //wszystkie elementy z grupy
+	for (unsigned int z = 0; z < C->groups->size(); z++) //wszystkie grupy
+		for (unsigned int a = 0; a < C->groups->at(z)->size(); a++) //wszystkie elementy z grupy
 			records++;
 	return records;
 }
@@ -221,27 +222,27 @@ void SuperFun::UpdateParenthood(Candidate *E,
 }
 
 void SuperFun::DecisionProduct(
-		vector<vector<int> *> &A,
-		vector<vector<int> *> &B,
+		vector<vector<int> *> *A,
+		vector<vector<int> *> *B,
 		Candidate *&C)
 {
 	vector<vector<int> > S;
-	C->groups.clear();
+	C->groups->clear();
 	C->GroupsNo = 0;
 	C->RecordsNo = 0;
 	S.resize(dataRowsNumber);
 	partitionArrayRepresentation(B);
 	set<int> BGroupIds; //set, bo groupsID moze sie powtarzac, a my nie chcemy
-	for (unsigned int i = 0; i < A.size(); i++)
+	for (unsigned int i = 0; i < A->size(); i++)
 	{ //petla obslugujaca kazda grupe A
 		BGroupIds.clear();
 		int j;
-		for (unsigned int k = 0; k < A.at(i)->size(); k++)
+		for (unsigned int k = 0; k < A->at(i)->size(); k++)
 		{ //petla obslugujaca kazdy element z grupy z A
-			j = T.at(A.at(i)->at(k)); // A.at(i).at(k) - oid
+			j = T.at(A->at(i)->at(k)); // A.at(i).at(k) - oid
 			if (j != -1)
 			{
-				S.at(j).push_back(A.at(i)->at(k)); //S[j]
+				S.at(j).push_back(A->at(i)->at(k)); //S[j]
 				BGroupIds.insert(j);
 			}
 		}
@@ -251,7 +252,7 @@ void SuperFun::DecisionProduct(
 			if (IsGroupContainedInAnyDecisionClass(S.at(*it)) == false)
 			{
 				//C->groups.push_back(new vector<int *>());
-				C->groups.push_back(new vector<int>(S.at(*it)));
+				C->groups->push_back(new vector<int>(S.at(*it)));
 //                for (unsigned int x = 0; x < S.at(*it).size(); x++) {//insertowanie S[j] do C
 //                    C->groups.back()->push_back(new int(S.at(*it).at(x)));
 				C->RecordsNo = C->RecordsNo + S.at(*it).size();

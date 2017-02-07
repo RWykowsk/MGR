@@ -7,18 +7,15 @@
 
 #include "SuperFunBA.h"
 
-SuperFunBA::SuperFunBA()
+
+SuperFunBA::SuperFunBA(int N) :
+		SuperFun(N)
 {
-	// TODO Auto-generated constructor stub
-
+//	this->rNo = N;
+//	this->dataRowsNumber = N;
+//
 }
-
-SuperFunBA::~SuperFunBA()
-{
-	// TODO Auto-generated destructor stub
-}
-
-virtual void SuperFun::doDecisionProduct(Candidate* X,
+void SuperFunBA::doDecisionProduct(Candidate* X,
 		Candidate* Y,
 		Candidate** Cand)
 {

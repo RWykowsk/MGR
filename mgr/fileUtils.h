@@ -5,7 +5,19 @@
 
 #include <vector>
 #include <string>
-#include "functions.h"
+#include "algs/BasicAlg.h"
+
+using namespace std;
+struct dictionary
+{
+	string word;
+	int id;
+	dictionary(string a, int b)
+	{
+		word = a;
+		id = b;
+	}
+};
 
 void create_modified_file(ifstream *input_file, int decision_column, int decision_type, string output_file_name, int number_of_transactions);
 

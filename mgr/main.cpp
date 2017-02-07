@@ -5,6 +5,9 @@
 //#include "functions.h"
 #include "fileUtils.h"
 #include "algs/BasicAlg.h"
+#include "algs/Stripped.h"
+#include "algs/Superfun.h"
+#include "algs/SuperFunBA.h"
 using namespace std;
 
 
@@ -19,16 +22,17 @@ int main(int argc, char *argv[])
 	int a_type = 1; // id of algorythm type
 	int number_of_transactions = 100;
     string input_file="letters.data";
-//    if (argc < 5) {
-//                // Tell the user how to run the program
-//                cerr << "Usage: " << argv[0] << " error" << endl;
+	if (argc < 5)
+	{
+		// Tell the user how to run the program
+		cerr << "Usage: " << argv[0] << " error" << endl;
 
-//                return 1;
-//        }
-//    input_file=argv[1];
-//    number_of_transactions=atoi(argv[2]);
-//    d_column=atoi(argv[3]);
-//    a_type=atoi(argv[4]);
+		return 1;
+	}
+	input_file = argv[1];
+	number_of_transactions = atoi(argv[2]);
+	decisionColumn = atoi(argv[3]);
+	a_type = atoi(argv[4]);
     string output_file=create_file_name(a_type,number_of_transactions,input_file);
 
 
@@ -69,16 +73,16 @@ int main(int argc, char *argv[])
 //                        break;
 
 	case 4:
-		alg = new SuperFunBA;
+		alg = new SuperFunBA(id_row + 1);
 		break;
 	case 3:
-		alg = new SuperFun;
+		alg = new SuperFun(id_row + 1);
 		break;
 	case 2:
-		alg = new Stripped;
+		alg = new Stripped(id_row + 1);
 		break;
                    case 1:
-		alg = new BasicAlg;
+		alg = new BasicAlg(id_row + 1);
 //                        BasicAlg.Basic_algorythm(C1,id_row+1,Rk,decisionColumn,output_file);
                         break;
                    default:
