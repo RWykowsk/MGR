@@ -1,0 +1,5 @@
+Liczba kandydatow o dlugosci : 	Liczba wszystkich wytworzonych podzialow 	Suma wszystkich grup 	Srednia liczba grup 	Suma wszystkich rekordow 	Srednia liczba rekordow 	Liczba wytworzonych podzialow po czyszczeniu kandydatów(pruning) 	Suma wszystkich grup po czyszczeniu kandydatów(pruning) 	Srednia liczba grup po czyszczeniu kandydatów(pruning) 	Suma wszystkich rekordow po czyszczeniu kandydatów(pruning) 	Srednia liczba rekordow po czyszczeniu kandydatów(pruning) 
+16	91	10053	110.473	91000	1000	91	10053	110.473	91000	1000
+91	130	50016	862.345	130000	2241.38	58	19916	343.379	58000	1000
+58	10	5750	5750	10000	10000	1	566	566	1000	1000
+1	0	0	-nan	0	-nan	0	0	-nan	0	-nan

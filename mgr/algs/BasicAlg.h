@@ -60,6 +60,9 @@ protected:
 	vector<vector<int>*> *groups;
 	void initializeStatistics();
 	void printStatistics(std::ofstream& output);
+	virtual void initialDeltaProcessing(std::vector<vector<int> *>* A);
+	void deltaPartitionArrayRepresentation(vector<vector<int> *> *A);
+
 	int No_candidates;
 	int No_divisions = 0;
 	int No_divisions2 = 0;
@@ -84,7 +87,7 @@ private:
 	void addCandidate(extBitset Cand_id,
 			std::vector<vector<int> *>* groups,
 			std::vector<Candidate*>& output);
-	void deltaPartitionArrayRepresentation(vector<vector<int> *> *A);
+
 
 
 };

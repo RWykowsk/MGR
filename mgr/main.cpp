@@ -6,8 +6,9 @@
 #include "fileUtils.h"
 #include "algs/BasicAlg.h"
 #include "algs/Stripped.h"
-#include "algs/Superfun.h"
+#include "algs/SuperFun.h"
 #include "algs/SuperFunBA.h"
+#include "algs/ApprCov.h"
 using namespace std;
 
 
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
     int decisionType=1;// id of decision type
 	int a_type = 1; // id of algorythm type
 	int number_of_transactions = 100;
+	double alfa = 2;
     string input_file="letters.data";
 	if (argc < 5)
 	{
@@ -33,6 +35,7 @@ int main(int argc, char *argv[])
 	number_of_transactions = atoi(argv[2]);
 	decisionColumn = atoi(argv[3]);
 	a_type = atoi(argv[4]);
+	alfa = atoi(argv[5]);
     string output_file=create_file_name(a_type,number_of_transactions,input_file);
 
 
@@ -72,6 +75,9 @@ int main(int argc, char *argv[])
 //                        Stripped_algorythm(C1,id_row+1,Rk,decisionColumn, output_file);
 //                        break;
 
+	case 5:
+		alg = new ApprCov(id_row + 1,alfa);
+		break;
 	case 4:
 		alg = new SuperFunBA(id_row + 1);
 		break;
@@ -98,7 +104,7 @@ int main(int argc, char *argv[])
     end=clock();
     double dif2=(end - start) / (double)(CLOCKS_PER_SEC / 1000);
     double dif3=dif1+dif2;
-    save_to_outputfile(Rk,a_type,id_row+1,input_file,dif1,dif2,dif3);
+    save_to_outputfile(Rk,a_type,id_row+1,input_file,dif1,dif2,dif3,alfa);
 
 
 

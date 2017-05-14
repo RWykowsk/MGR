@@ -1,0 +1,9 @@
+Liczba minimalnych zaleznosci funkcyjnych 3
+Identyfikatory minimalnych zaleznosci funkcyjnych 
+1 
+2 
+3 5 
+
+Czas przetwarzania pliku: 0.001
+Czas wykonywania algorytmu: 2275.19
+Czas wykonywania całego programu: 2275.19

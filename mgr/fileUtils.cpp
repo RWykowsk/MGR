@@ -241,11 +241,15 @@ int read_from_modified_file(string filename, vector<Candidate *> &C1, int number
 }
 
 void save_to_outputfile(vector<Candidate *> Rk, int a_type, int number_of_transactions, string input_file,
-                        double diffFilePrepare, double diffAlg, double diffAll) {
+                        double diffFilePrepare, double diffAlg, double diffAll, double alfa) {
 	string filename = "results/results";
+//	string filename = "results";
     string a_name;
     ostringstream temp_records;
     temp_records << number_of_transactions;
+    if(a_type==5){
+    	temp_records << alfa;
+    }
     string records = temp_records.str();
     for (unsigned int i = 0; i < input_file.size(); i++) {
         if (input_file[i] == '.') {
@@ -258,6 +262,9 @@ void save_to_outputfile(vector<Candidate *> Rk, int a_type, int number_of_transa
     filename.append("_");
     switch (a_type) {
 
+    	case 5:
+        a_name = "ApprCov";
+        break;
         case 4:
             a_name = "SuperFunBA";
             break;

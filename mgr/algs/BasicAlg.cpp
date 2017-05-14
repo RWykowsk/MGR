@@ -29,15 +29,19 @@ void BasicAlg::partitionArrayRepresentation(vector<vector<int> *> *A)
 	}
 }
 
-void BasicAlg::deltaPartitionArrayRepresentation(vector<vector<int> *> *A)
-{
-	for (unsigned int i = 0; i < A->size(); i++)
-	{
-		for (unsigned int j = 0; j < A->at(i)->size(); j++)
-		{
+void BasicAlg::deltaPartitionArrayRepresentation(vector<vector<int> *>* A) {
+	for (unsigned int i = 0; i < A->size(); i++) {
+		for (unsigned int j = 0; j < A->at(i)->size(); j++) {
 			delta.at(A->at(i)->at(j)) = i;
 		}
 	}
+}
+
+
+
+void BasicAlg::initialDeltaProcessing(vector<vector<int> *> *A)
+{
+	deltaPartitionArrayRepresentation(A);
 }
 
 void BasicAlg::doBeforeProduct(Candidate *Ck)
@@ -330,7 +334,7 @@ void BasicAlg::processData(vector<Candidate *> &C1,
 	T.resize(id_row);
 	delta.resize(id_row);
 	prepareCandidate(C1);
-	deltaPartitionArrayRepresentation(C1.at(d_column - 1)->groups);
+	initialDeltaProcessing(C1.at(d_column - 1)->groups);
 	removeDecisionColumn(d_column, C1);
 	vector<Candidate *> tmp;
 	tmp = C1;
