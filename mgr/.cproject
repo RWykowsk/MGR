@@ -125,9 +125,6 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cygwin.exe.debug.1054881781;cdt.managedbuild.config.gnu.cygwin.exe.debug.1054881781.;cdt.managedbuild.tool.gnu.c.compiler.cygwin.base.1118174478;cdt.managedbuild.tool.gnu.c.compiler.input.cygwin.2079035798">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cygwin.exe.debug.1054881781;cdt.managedbuild.config.gnu.cygwin.exe.debug.1054881781.;cdt.managedbuild.tool.gnu.c.compiler.base.842604608;cdt.managedbuild.tool.gnu.c.compiler.input.1894153597">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cygwin.exe.release.1947322440;cdt.managedbuild.config.gnu.cygwin.exe.release.1947322440.;cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.release.631970605;cdt.managedbuild.tool.gnu.c.compiler.input.cygwin.170266687">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
@@ -138,9 +135,6 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cygwin.exe.release.1947322440;cdt.managedbuild.config.gnu.cygwin.exe.release.1947322440.;cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.release.24203284;cdt.managedbuild.tool.gnu.cpp.compiler.input.cygwin.357811303">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cygwin.exe.debug.1054881781;cdt.managedbuild.config.gnu.cygwin.exe.debug.1054881781.;cdt.managedbuild.tool.gnu.cpp.compiler.base.33592173;cdt.managedbuild.tool.gnu.cpp.compiler.input.1393091956">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cygwin.exe.debug.1054881781;cdt.managedbuild.config.gnu.cygwin.exe.debug.1054881781.;cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug.1011204873;cdt.managedbuild.tool.gnu.c.compiler.input.cygwin.1385356894">

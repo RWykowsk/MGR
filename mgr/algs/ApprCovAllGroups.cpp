@@ -1,43 +1,38 @@
 /*
- * ApprCov.cpp
+ * ApprCovAllGroups.cpp
  *
- *  Created on: 06.03.2017
+ *  Created on: May 24, 2017
  *      Author: wyq
  */
 
-#include "ApprCov.h"
+#include "ApprCovAllGroups.h"
 
-ApprCov::ApprCov(int N,double alfa,double beta)
-:BasicAlg(N) {
-//	this->rNo = N;
-//	this->dataRowsNumber = N;
-	this->decCardinalities=new vector<int>();
-	this->decCounters= new vector<int>();
-	this->coverages= new vector<double>();
-	this->alfa=alfa;
-	this->beta=beta;
+ApprCovAllGroups::ApprCovAllGroups(int N,double alfa,double beta): ApprCov(N,alfa,beta) {
+	// TODO Auto-generated constructor stub
+	this->allGroupsOK= new vector<bool>();
 
 }
 
-ApprCov::~ApprCov() {
+
+ApprCovAllGroups::~ApprCovAllGroups() {
 	// TODO Auto-generated destructor stub
 }
 
-void ApprCov::initialDeltaProcessing(vector<vector<int> *> *A)
-{
+void ApprCovAllGroups::initialDeltaProcessing(std::vector<vector<int> *>* A) {
+	coverages->resize(A->size());
+	allGroupsOK->resize(A->size());
 	for (unsigned int i = 0; i < A->size(); i++) {
-		decCardinalities->push_back(A->size());
+		decCardinalities->push_back(A->at(i)->size());
 		decCounters->push_back(0);
-		coverages->resize(A->size());
 		for (unsigned int j = 0; j < A->at(i)->size(); j++) {
 			delta.at(A->at(i)->at(j)) = i;
 		}
 	}
-
 }
 
-bool ApprCov::holds(vector<vector<int>*> *C)
+bool ApprCovAllGroups::holds(vector<vector<int>*> *C)
 {
+	fill(allGroupsOK->begin(), allGroupsOK->end(), false);
 	for (unsigned int i = 0; i < C->size(); i++)
 	{ //petla obslugujaca kazda grupe z C
 		for (unsigned int k = 0; k < C->at(i)->size(); k++)
@@ -57,19 +52,23 @@ bool ApprCov::holds(vector<vector<int>*> *C)
 		bool isMaxCoverageOK=false;
 		double maxCoverageinGroup=0;
 		double secondMaxCoverageinGroup=0;
+		int groupId;
 		for (unsigned int k = 0; k < coverages->size(); k++){
 					//wartosc mianownika
 					//TODO ensure that there is more than one decision in dataset
 					double lowerValue=(double) (sumCoverages-coverages->at(k))/(decCardinalities->size()-1);
 					if(lowerValue==0){
 						//infinite coverage
-						isMaxCoverageOK=true;
+						//isMaxCoverageOK=true;
+						maxCoverageinGroup=INFINITY;
+						groupId=k;
 						break;
 					}
 					double value=coverages->at(k)/lowerValue;
 					if(value>maxCoverageinGroup){
 						secondMaxCoverageinGroup=maxCoverageinGroup;
 						maxCoverageinGroup=value;
+						groupId=k;
 						continue;
 					}
 					if(value>secondMaxCoverageinGroup){
@@ -78,6 +77,7 @@ bool ApprCov::holds(vector<vector<int>*> *C)
 				}
 		if(maxCoverageinGroup>=alfa && (maxCoverageinGroup-secondMaxCoverageinGroup)>beta){
 			isMaxCoverageOK=true;
+			allGroupsOK->at(groupId)=true;
 		}
 		if(!isMaxCoverageOK){
 			return false;
@@ -87,6 +87,11 @@ bool ApprCov::holds(vector<vector<int>*> *C)
 		//dodatkowo zapisywac liczbe w kazdej klasie (przez wiele grup) i ja inkrementowac,
 		//jezeli kazda grupa obluzona w pewnym stopniou to ok- jako kolejny
 
+	}
+	for (unsigned int k = 0; k < allGroupsOK->size(); k++){
+		if(!allGroupsOK->at(k)){
+			return false;
+		}
 	}
 	return true;
 

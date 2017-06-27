@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <string>
+#include <ctime>
 #include "algs/BasicAlg.h"
 
 using namespace std;
@@ -24,8 +25,8 @@ void create_modified_file(ifstream *input_file, int decision_column, int decisio
 int read_from_modified_file(string filename, vector<Candidate *> &C1, int number_of_transactions);
 
 void save_to_outputfile(vector<Candidate *> Rk, int a_type, int number_of_transactions,
-                        string input_file, double diffFilePrepare, double diffAlg, double diffAll,double alfa);
-string create_file_name(int a_type, int number_of_transactions,
+                        string input_file, double diffFilePrepare, double diffAlg, double diffAll,double alfa,double beta, double reqGroupNo);
+string create_file_name(int a_type, int number_of_transactions, double alfa,double beta, double reqGroupNo,
                       string input_file);
 
 

@@ -260,14 +260,6 @@ void BasicAlg::search4FunctionalDependencies(vector<Candidate*>* tmp,
 
 void BasicAlg::printStatistics(ofstream& output)
 {
-	//        output << "Liczba wszystkich wytworzonych podzialow "<<No_divisions<<endl;
-	//        output << "Liczba wytworzonych podzialow po czyszczeniu kandydatów(pruning) "<<No_divisions2<<endl;
-	//        output << "Suma wszystkich grup po czyszczeniu kandydatów(pruning) "<<sum_groups<<endl;
-	//        double avg_groups=double(sum_groups)/No_divisions2;
-	//        output << "Srednia liczba grup po czyszczeniu kandydatów(pruning) "<<avg_groups<<endl;
-	//        output << "Suma wszystkich rekordow po czyszczeniu kandydatów(pruning) "<<sum_records<<endl;
-	//        double avg_records=double(sum_records)/No_divisions2;
-	//        output << "Srednia liczba rekordow po czyszczeniu kandydatów(pruning) "<<avg_records<<endl;
 	output << No_divisions << '\t';
 	output << sum_groups_before << '\t';
 	double avg_groups_before = double(sum_groups_before) / No_divisions2;
@@ -288,12 +280,12 @@ void BasicAlg::candidatesInitialProcessing(ofstream& output,
 		vector<Candidate*>* tmp,
 		vector<Candidate*>& Rk)
 {
-	output << tmp->size() << '\t';
+	//output << tmp->size() << '\t';
 	search4FunctionalDependencies(&*tmp, Rk);
 	initializeStatistics();
 	vector<Candidate*> tmp2;
 	funGen(*tmp, 1, tmp2);
-	printStatistics(output);
+	//printStatistics(output);
 	*tmp = tmp2;
 }
 
@@ -303,21 +295,12 @@ void BasicAlg::candidatesFurtherProcessing(vector<Candidate*> tmp,
 {
 	for (int k = 2; tmp.size() > 0; k++)
 	{
-		output << tmp.size() << '\t';
-		//        output << "Identyfikatory minimalnych zaleznosci funkcyjnych " << endl;
+		//output << tmp.size() << '\t';
 		search4FunctionalDependencies(&tmp, Rk);
 		initializeStatistics();
 		vector<Candidate*> tmp2;
 		funGen(tmp, k, tmp2);
-		//        output << "Liczba wszystkich wytworzonych podzialow "<<No_divisions<<endl;
-		//        output << "Liczba wytworzonych podzialow po czyszczeniu kandydatów(pruning) "<<No_divisions2<<endl;
-		//        output << "Suma wszystkich grup po czyszczeniu kandydatów(pruning) "<<sum_groups<<endl;
-		//        double avg_groups=double(sum_groups)/No_divisions2;
-		//        output << "Srednia liczba grup po czyszczeniu kandydatów(pruning) "<<avg_groups<<endl;
-		//        output << "Suma wszystkich rekordow po czyszczeniu kandydatów(pruning) "<<sum_records<<endl;
-		//        double avg_records=double(sum_records)/No_divisions2;
-		//        output << "Srednia liczba rekordow po czyszczeniu kandydatów(pruning) "<<avg_records<<endl;
-		printStatistics(output);
+		//printStatistics(output);
 		//tmp = std::move(tmp2);
 		tmp = move(tmp2);
 	}
@@ -338,8 +321,8 @@ void BasicAlg::processData(vector<Candidate *> &C1,
 	removeDecisionColumn(d_column, C1);
 	vector<Candidate *> tmp;
 	tmp = C1;
-	ofstream output(output_file.c_str());
-	printHeaders(output);
+	ofstream output("nic_tu_nie_ma");
+	//printHeaders(output);
 
 	candidatesInitialProcessing(output, &tmp, Rk);
 	candidatesFurtherProcessing(tmp, output, Rk);

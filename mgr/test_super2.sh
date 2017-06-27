@@ -1,4 +1,4 @@
-./SUPER_FUN krkopt.data 10 7 1
+./FUN krkopt.data 10 7 1 5 4
 ./SUPER_FUN krkopt.data 100 7 1
 ./SUPER_FUN krkopt.data 1000 7 1
 ./SUPER_FUN krkopt.data 10000 7 1

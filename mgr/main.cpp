@@ -9,6 +9,12 @@
 #include "algs/SuperFun.h"
 #include "algs/SuperFunBA.h"
 #include "algs/ApprCov.h"
+#include "algs/ApprCovAllGroups.h"
+#include "algs/ApprCovAllGroupsNumber.h"
+#include "algs/ApprCovAllRecords.h"
+#include "algs/ApprCovAllRecordsGlobal.h"
+
+
 using namespace std;
 
 
@@ -23,6 +29,8 @@ int main(int argc, char *argv[])
 	int a_type = 1; // id of algorythm type
 	int number_of_transactions = 100;
 	double alfa = 2;
+	double beta = 1;
+	double reqGroupNo = 1;
     string input_file="letters.data";
 	if (argc < 5)
 	{
@@ -35,8 +43,12 @@ int main(int argc, char *argv[])
 	number_of_transactions = atoi(argv[2]);
 	decisionColumn = atoi(argv[3]);
 	a_type = atoi(argv[4]);
-	alfa = atoi(argv[5]);
-    string output_file=create_file_name(a_type,number_of_transactions,input_file);
+	alfa = atof(argv[5]);
+	beta = atof(argv[6]);
+	if(a_type>=7){
+		reqGroupNo= atof(argv[7]);
+	}
+    string output_file=create_file_name(a_type,number_of_transactions, alfa, beta, reqGroupNo,input_file);
 
 
 
@@ -74,9 +86,20 @@ int main(int argc, char *argv[])
 //                   case 2:
 //                        Stripped_algorythm(C1,id_row+1,Rk,decisionColumn, output_file);
 //                        break;
-
+    case 9:
+        alg = new ApprCovAllRecordsGlobal(id_row + 1,alfa,beta,reqGroupNo,output_file);
+        break;
+    case 8:
+        alg = new ApprCovAllRecords(id_row + 1,alfa,beta,reqGroupNo,output_file);
+        break;
+    case 7:
+        alg = new ApprCovAllGroupsNumber(id_row + 1,alfa,beta,reqGroupNo);
+        break;
+    case 6:
+    	alg = new ApprCovAllGroups(id_row + 1,alfa,beta);
+    	break;
 	case 5:
-		alg = new ApprCov(id_row + 1,alfa);
+		alg = new ApprCov(id_row + 1,alfa,beta);
 		break;
 	case 4:
 		alg = new SuperFunBA(id_row + 1);
@@ -104,7 +127,7 @@ int main(int argc, char *argv[])
     end=clock();
     double dif2=(end - start) / (double)(CLOCKS_PER_SEC / 1000);
     double dif3=dif1+dif2;
-    save_to_outputfile(Rk,a_type,id_row+1,input_file,dif1,dif2,dif3,alfa);
+    save_to_outputfile(Rk,a_type,id_row+1,input_file,dif1,dif2,dif3,alfa,beta,reqGroupNo);
 
 
 

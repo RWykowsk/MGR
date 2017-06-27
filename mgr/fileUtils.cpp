@@ -241,14 +241,17 @@ int read_from_modified_file(string filename, vector<Candidate *> &C1, int number
 }
 
 void save_to_outputfile(vector<Candidate *> Rk, int a_type, int number_of_transactions, string input_file,
-                        double diffFilePrepare, double diffAlg, double diffAll, double alfa) {
-	string filename = "results/results";
+                        double diffFilePrepare, double diffAlg, double diffAll, double alfa,double beta, double reqGroupNo) {
+	string filename = "/home/wyq/MGR/results/results";
 //	string filename = "results";
     string a_name;
     ostringstream temp_records;
     temp_records << number_of_transactions;
-    if(a_type==5){
-    	temp_records << alfa;
+    if(a_type>=5){
+    	temp_records << "_"<<alfa<<"_"<<beta;
+    }
+    if(a_type>=7){
+    	temp_records << "_"<<reqGroupNo;
     }
     string records = temp_records.str();
     for (unsigned int i = 0; i < input_file.size(); i++) {
@@ -261,10 +264,21 @@ void save_to_outputfile(vector<Candidate *> Rk, int a_type, int number_of_transa
     filename.append(records);
     filename.append("_");
     switch (a_type) {
-
-    	case 5:
-        a_name = "ApprCov";
+	case 9:
+		a_name = "ApprCovAllRecordsGlobal";
         break;
+	case 8:
+		a_name = "ApprCovAllRecords";
+        break;
+	case 7:
+        a_name = "ApprCovAllGroupsNumber";
+        break;
+	case 6:
+        a_name = "ApprCovAllGroups";
+        break;
+	case 5:
+		a_name = "ApprCov";
+		break;
         case 4:
             a_name = "SuperFunBA";
             break;
@@ -304,13 +318,13 @@ void save_to_outputfile(vector<Candidate *> Rk, int a_type, int number_of_transa
 
 
 
-string create_file_name(int a_type, int number_of_transactions, string input_file)
+string create_file_name(int a_type, int number_of_transactions, double alfa,double beta, double reqGroupNo, string input_file)
 {
 	string filename = "results/results";
     string a_name;
     ostringstream temp_records;
     temp_records << number_of_transactions;
-    string records = temp_records.str();
+
     for (unsigned int i = 0; i < input_file.size(); i++) {
         if (input_file[i] == '.') {
             filename.append("_");
@@ -318,17 +332,37 @@ string create_file_name(int a_type, int number_of_transactions, string input_fil
             filename.append("_");
         }
     }
+    if(a_type>=5){
+    	temp_records << "_"<<alfa<<"_"<<beta;
+    }
+    if(a_type>=7){
+    	temp_records << "_"<<reqGroupNo;
+    }
+    string records = temp_records.str();
     filename.append(records);
     filename.append("_");
     switch (a_type) {
-
+    	case 9:
+    		a_name = "ApprCovAllRecordsGlobal";
+            break;
+    	case 8:
+    		a_name = "ApprCovAllRecords";
+            break;
+    	case 7:
+            a_name = "ApprCovAllGroupsNumber";
+            break;
+    	case 6:
+            a_name = "ApprCovAllGroups";
+            break;
+    	case 5:
+    		a_name = "ApprCov";
+    		break;
         case 4:
             a_name = "SuperFunBA";
             break;
         case 3:
             a_name = "SuperFunAB";
             break;
-
         case 2:
             a_name = "Stripped";
             break;
@@ -340,6 +374,13 @@ string create_file_name(int a_type, int number_of_transactions, string input_fil
             break;
     }
     filename.append(a_name);
-    filename.append("_statistics.txt");
+      time_t rawtime;
+      struct tm * timeinfo;
+      char buffer [64];
+      time (&rawtime);
+      timeinfo = localtime (&rawtime);
+      strftime (buffer,64,"%s",timeinfo);
+      filename.append(buffer);
+      filename.append("_statistics.txt");
     return filename;
 }

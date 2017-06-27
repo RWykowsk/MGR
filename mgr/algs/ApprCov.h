@@ -13,17 +13,18 @@
 class ApprCov: public BasicAlg {
 public:
 public:
-	//ApprCov(int N);
-	ApprCov(int N, double alfa);
+	ApprCov(int N, double alfa,double beta);
 	virtual ~ApprCov();
 protected:
 	virtual void initialDeltaProcessing(std::vector<vector<int> *>* A);
 	virtual bool holds(vector<vector<int>*> *C);
-private:
 	vector<int> *decCardinalities;
 	vector<int> *decCounters;
 	vector<double> *coverages;
 	double alfa;
+	double beta;
+private:
+
 
 };
 

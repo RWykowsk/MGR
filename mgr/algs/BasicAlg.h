@@ -12,6 +12,7 @@
 //#include <map>
 #include <set>
 #include "extBitset.h"
+#include <cmath>
 using namespace std;
 
 struct Candidate
